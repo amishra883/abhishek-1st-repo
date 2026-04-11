@@ -1,0 +1,70 @@
+id: urinary_symptoms
+label: Urinary Symptoms
+specialty: family_practice
+
+trigger:
+  chief_complaint_keywords:
+    - urinary
+    - burning urination
+    - painful urination
+    - frequent urination
+    - uti
+
+questions:
+  - id: onset
+    type: single_select
+    label: When did symptoms start?
+    options: [Today, 1-2 days ago, Within 1 week, More than 1 week ago]
+    required: true
+
+  - id: dysuria
+    type: single_select
+    label: Do you have burning or pain with urination?
+    options: [Yes, No]
+    required: true
+
+  - id: frequency
+    type: single_select
+    label: Are you urinating more often than usual?
+    options: [Yes, No]
+    required: true
+
+  - id: hematuria
+    type: single_select
+    label: Is there blood in your urine?
+    options: [Yes, No, Unsure]
+    required: true
+
+  - id: flank_pain
+    type: single_select
+    label: Do you have back or side pain?
+    options: [Yes, No]
+    required: true
+
+  - id: fever
+    type: single_select
+    label: Do you have fever or chills?
+    options: [Yes, No]
+    required: true
+
+red_flags:
+  - id: possible_pyelonephritis
+    when:
+      all:
+        - field: flank_pain
+          equals: Yes
+        - field: fever
+          equals: Yes
+    severity: urgent
+    patient_message: "Fever with back or side pain may indicate a kidney infection and needs prompt evaluation."
+
+emr_relevance:
+  conditions: [diabetes, chronic_kidney_disease, recurrent_uti, pregnancy]
+  meds: [antibiotics, immunosuppressants]
+  labs: [urinalysis, urine_culture, bmp]
+  studies: [renal_ultrasound]
+  vitals: [temperature, blood_pressure, heart_rate]
+
+quality_gap_rules:
+  - diabetes_screening_if_recurrent_uti
+  - pregnancy_test_if_applicable

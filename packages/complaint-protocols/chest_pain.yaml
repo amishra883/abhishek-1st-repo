@@ -1,0 +1,72 @@
+id: chest_pain
+label: Chest Pain
+specialty: family_practice
+
+trigger:
+  chief_complaint_keywords:
+    - chest pain
+    - chest pressure
+    - chest tightness
+
+questions:
+  - id: onset
+    type: single_select
+    label: When did this start?
+    options: [Today, 1-2 days ago, Within 1 week, More than 1 week ago]
+    required: true
+
+  - id: quality
+    type: single_select
+    label: How would you describe it?
+    options: [Pressure, Sharp, Burning, Tightness, Dull ache, Palpitations]
+    required: true
+
+  - id: severity
+    type: scale
+    label: Rate the severity from 1 to 10
+    min: 1
+    max: 10
+    required: true
+
+  - id: radiation
+    type: multi_select
+    label: Does it spread anywhere?
+    options: [Left arm, Right arm, Jaw, Back, Neck, Shoulder, Does not spread]
+    required: true
+
+  - id: sob
+    type: single_select
+    label: Do you also have shortness of breath?
+    options: [Yes, No]
+    required: true
+
+  - id: exertional
+    type: single_select
+    label: Does it get worse with activity?
+    options: [Yes, No, Unsure]
+    required: true
+
+red_flags:
+  - id: possible_acs_pattern
+    when:
+      all:
+        - field: quality
+          equals: Pressure
+        - field: sob
+          equals: Yes
+        - field: radiation
+          includes_any: [Left arm, Jaw, Back]
+    severity: urgent
+    patient_message: "These symptoms may require urgent medical evaluation."
+
+emr_relevance:
+  conditions: [coronary_artery_disease, hypertension, hyperlipidemia, diabetes]
+  meds: [nitroglycerin, beta_blocker, statin, anticoagulant, antiplatelet]
+  labs: [lipids, a1c, bmp]
+  studies: [ecg, stress_test, echo]
+  vitals: [blood_pressure, heart_rate, oxygen_saturation]
+
+quality_gap_rules:
+  - statin_gap_if_cad_or_diabetes
+  - bp_control_gap_if_hypertension
+  - tobacco_cessation_if_smoker

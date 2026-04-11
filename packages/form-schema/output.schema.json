@@ -1,0 +1,23 @@
+{
+  "type": "object",
+  "required": [
+    "complaint_protocol",
+    "patient_answers",
+    "relevant_emr_history",
+    "red_flags",
+    "quality_gaps",
+    "summary",
+    "recommendations",
+    "patient_handout"
+  ],
+  "properties": {
+    "complaint_protocol": { "type": "string" },
+    "patient_answers": { "type": "object" },
+    "relevant_emr_history": { "type": "object" },
+    "red_flags": { "type": "array" },
+    "quality_gaps": { "type": "array" },
+    "summary": { "type": "object" },
+    "recommendations": { "type": "object" },
+    "patient_handout": { "type": "object" }
+  }
+}

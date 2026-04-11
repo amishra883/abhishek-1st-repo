@@ -1,0 +1,23 @@
+{
+  "type": "object",
+  "required": [
+    "id",
+    "label",
+    "specialty",
+    "trigger",
+    "questions",
+    "red_flags",
+    "emr_relevance",
+    "quality_gap_rules"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "label": { "type": "string" },
+    "specialty": { "type": "string" },
+    "trigger": { "type": "object" },
+    "questions": { "type": "array" },
+    "red_flags": { "type": "array" },
+    "emr_relevance": { "type": "object" },
+    "quality_gap_rules": { "type": "array" }
+  }
+}
