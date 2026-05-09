@@ -14,13 +14,13 @@ from rules_engine.complaint_router import route_complaint
 from rules_engine.red_flags import evaluate_red_flags
 from rules_engine.emr_relevance import build_emr_fetch_plan
 from rules_engine.quality_gaps import evaluate_quality_gaps
-from emr_adapter.base import MockEMRAdapter
+from emr_adapter.base import BaseEMRAdapter, MockEMRAdapter
 from ai_orchestrator.summary_agent import build_summary
 from ai_orchestrator.recommendation_agent import build_recommendation
 from print_service.renderer import render_handout
 
 router = APIRouter()
-emr = MockEMRAdapter()
+_emr: BaseEMRAdapter = MockEMRAdapter()
 
 _llm_call: Optional[Callable] = None
 
@@ -28,6 +28,11 @@ _llm_call: Optional[Callable] = None
 def set_llm_call(fn: Callable[[str, Dict[str, Any]], Dict[str, Any]]):
     global _llm_call
     _llm_call = fn
+
+
+def set_emr_adapter(adapter: BaseEMRAdapter):
+    global _emr
+    _emr = adapter
 
 
 def _get_llm_call() -> Callable:
@@ -44,7 +49,7 @@ def process_intake(payload: IntakeRequest):
 
     red_flags = evaluate_red_flags(protocol, payload.answers)
     fetch_plan = build_emr_fetch_plan(protocol)
-    relevant_history = emr.fetch_relevant_history(payload.patient_id, fetch_plan)
+    relevant_history = _emr.fetch_relevant_history(payload.patient_id, fetch_plan)
     quality_gaps = evaluate_quality_gaps(protocol, payload.answers, relevant_history)
 
     llm = _get_llm_call()
