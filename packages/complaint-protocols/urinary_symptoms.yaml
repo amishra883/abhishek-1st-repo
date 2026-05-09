@@ -52,9 +52,9 @@ red_flags:
     when:
       all:
         - field: flank_pain
-          equals: Yes
+          equals: "Yes"
         - field: fever
-          equals: Yes
+          equals: "Yes"
     severity: urgent
     patient_message: "Fever with back or side pain may indicate a kidney infection and needs prompt evaluation."
 

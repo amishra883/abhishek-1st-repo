@@ -53,7 +53,7 @@ red_flags:
         - field: quality
           equals: Pressure
         - field: sob
-          equals: Yes
+          equals: "Yes"
         - field: radiation
           includes_any: [Left arm, Jaw, Back]
     severity: urgent
