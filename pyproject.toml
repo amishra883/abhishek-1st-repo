@@ -1,0 +1,17 @@
+[project]
+name = "smart-intake"
+version = "0.1.0"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+testpaths = [
+    "services/rules-engine/tests",
+    "services/ai-orchestrator/tests",
+    "services/print-service/tests",
+    "services/api/tests",
+]
+pythonpath = ["services"]
+addopts = "-v --tb=short --strict-markers"
+markers = [
+    "illness_script: parametrized illness script tests",
+]
